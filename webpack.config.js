@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin")
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 const path = require("path")
 
 module.exports = {
@@ -27,6 +28,7 @@ module.exports = {
       template: "./src/index.html",
       filename: "./index.html"
     }),
+    new CleanWebpackPlugin('app')
   ],
   devServer: {
     port: 3333,
