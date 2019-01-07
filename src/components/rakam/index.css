@@ -22,11 +22,17 @@
 .mgl10{
     margin-left: 10px;
 }
+.mgt10{
+    margin-top: 10px;
+}
 .mgb10{
     margin-bottom: 10px;
 }
 .mgb0{
     margin-bottom: 0;
+}
+.pd10{
+    padding: 10px;
 }
 .ant-tabs-tab{
     margin: 0 !important;
@@ -34,4 +40,29 @@
 .ant-tabs-tab-active{
     margin: 0 !important;
     padding-bottom: 0 !important;
+}
+.ant-tabs .ant-tabs-right-content{
+    padding-right: 0;
+}
+.icon{
+    font-size: 20px;
+    color: #02afde;
+}
+.pointer{
+    cursor: pointer;
+}
+.icon-style{
+    padding: 4px 2px 2px 2px;
+}
+.active{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #eee;
+}
+.button-label{
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 40px;
+    color: rgb(96, 98, 102);
+    float: left;
 }
