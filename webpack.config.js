@@ -1,13 +1,15 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require("path")
 
 module.exports = {
   entry: "./src/index.js",
   output: {
-    path: path.resolve('app'),
+    path: path.resolve(__dirname, 'app'),
     filename: 'main.js'
   },
+  // devtool: '#cheap-module-eval-source-map',
   module: {
     rules: [
       {
@@ -28,7 +30,13 @@ module.exports = {
       template: "./src/index.html",
       filename: "./index.html"
     }),
-    new CleanWebpackPlugin('app')
+    new UglifyJsPlugin({
+      parallel: 4,
+      uglifyOptions: {
+        warnings: false
+      }
+    }),
+    new CleanWebpackPlugin(['app'], { allowExternal: true })
   ],
   devServer: {
     port: 3333,

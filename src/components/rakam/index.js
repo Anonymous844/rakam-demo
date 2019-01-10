@@ -9,6 +9,18 @@ import ConfigArea from './configArea/configArea'
 export default class rakam extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      data: [],
+      config: {}
+    }
+  }
+  // 获取请求数据
+  getData (data) {
+    this.setState({data: data})
+  }
+  // echarts重新渲染
+  rerender (data) {
+    this.setState({config: data})
   }
   render () {
     return (
@@ -16,13 +28,13 @@ export default class rakam extends React.Component {
         <Row gutter={10}>
           <Col span={18}>
             <div>
-              <SqlArea></SqlArea>
-              <ChartsArea></ChartsArea>
+              <SqlArea getData={data => this.getData(data)}></SqlArea>
+              <ChartsArea data={this.state.data} config={this.state.config}></ChartsArea>
             </div>
           </Col>
           <Col span={6}>
             <div>
-              <ConfigArea></ConfigArea>
+              <ConfigArea data={this.state.data} rerender={data => this.rerender(data)}></ConfigArea>
             </div>
           </Col>
         </Row>

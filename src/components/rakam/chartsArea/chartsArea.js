@@ -7,112 +7,140 @@ export default class ChartsArea extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      data: [],
       columns: [],
-      dataSource: []
-    }
-  }
-  componentDidMount () {
-    this.getChartData()
-    setTimeout(() => this.renderChart())
-  }
-  getChartData () {
-    let data = {
-      "attributes": {
-        "list": [
-          {
-            "balanceMain": "THLG",
-            "balanceMainDesc": "宜昌桃花岭饭店",
-            "code": "001",
-            "descript": "支付宝扫码-宜昌桃花岭饭店",
-            "listOrder": null,
-            "mainType": "group",
-            "type": "2",
-            "cycle": "auto",
-            "main": true,
-            "halt": null,
-            "check": null
-          },
-          {
-            "balanceMain": "THLG",
-            "balanceMainDesc": "宜昌桃花岭饭店",
-            "code": "002",
-            "descript": "微信扫码-宜昌桃花岭饭店",
-            "listOrder": null,
-            "mainType": "group",
-            "type": "2",
-            "cycle": "auto",
-            "main": true,
-            "halt": null,
-            "check": null
-          }
-        ]
-      },
-      "msg": "账户列表",
-      "success": true
-    }
-    let columns = []
-    let dataSource = []
-    if (data.attributes.list.length) {
-      for (let x in data.attributes.list[0]) {
-        columns.push({
-          title: x,
-          dataIndex: x,
-          key: x
-        })
+      dataSource: [],
+      chartData: {
+        showLegend: true,
+        showLabels: true,
+        x: [],
+        y: [],
+        legend: ''
       }
-      data.attributes.list.forEach((v, k) => {
-        v.key = k.toString()
-        dataSource.push(v)
+    }
+  }
+  componentDidUpdate (prevProps) {
+    if (this.props.data !== prevProps.data) {
+      this.dataFormat()
+    }
+    if (this.props.config !== prevProps.config) {
+      this.rerender()
+    }
+  }
+  // 数据拼装
+  dataFormat () {
+    let dataSource = []
+    let columns = []
+    let chartData = {
+      showLegend: true,
+      showLabels: true,
+      x: [],
+      y: [],
+      legend: ''
+    }
+    for (let x in this.props.data[0]) { // 表头拼装
+      columns.push({
+        title: x,
+        dataIndex: x,
+        key: x
       })
     }
-    this.setState({columns: columns})
+    this.props.data.forEach(v => {
+      dataSource.push(v)
+    })
+    dataSource = JSON.parse(JSON.stringify(dataSource))
+    dataSource.forEach((v, k) => { // 表格数据拼装
+      v.key = k
+    })
+    // 图 数据拼装
+    let xArr = []
+    for (let x in this.props.data[0]) {
+      if (typeof(this.props.data[0][x]) === 'string') {
+        xArr.push(x)
+        break
+      }
+    }
+    for (let x in this.props.data[0]) {
+      if (typeof(this.props.data[0][x]) === 'number') {
+        chartData.legend = x
+        break
+      }
+    }
+    this.props.data.forEach(v => {
+      xArr.forEach(d => {
+        chartData.x.push(v[d])
+      })
+      chartData.y.push(v[chartData.legend])
+    })
     this.setState({dataSource: dataSource})
+    this.setState({columns: columns})
+    this.setState({chartData: chartData}, () => this.renderChart())
   }
+  // 重新渲染echarts图之前的拼装参数
+  rerender () {
+    let config = JSON.parse(JSON.stringify(this.state.chartData))
+    config.showLegend = this.props.config.showLegend
+    config.showLabels = this.props.config.showLabels
+    this.setState({chartData: config}, () => this.renderChart())
+  }
+  // 渲染echarts图
   renderChart () {
     let chart = echarts.init(document.getElementById('chart'))
+    const legendName = this.state.chartData.legend
+    const xData = this.state.chartData.x
+    const yData = this.state.chartData.y
+    const showLegend = this.state.chartData.showLegend
+    const showLabels = this.state.chartData.showLabels
     let options = {
       color: ['#02afde'],
-      tooltip : {
-          trigger: 'axis',
-          axisPointer : {
-              type : 'shadow'
-          }
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
       },
       legend: {
+        show: showLegend,
         data: [{
-          name: 'fat_level',
+          name: legendName,
           icon: 'circle'
         }],
         bottom: '0'
       },
       grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
       },
-      xAxis : [
-          {
-              type : 'category',
-              data : ['tsumetaRaito', 'nekoChan'],
-              axisTick: {
-                  alignWithLabel: true
-              }
+      xAxis: [
+        {
+          type: 'category',
+          data: xData,
+          axisTick: {
+            alignWithLabel: true
           }
+        }
       ],
-      yAxis : [
-          {
-              type : 'value',
-              minInterval: 1
-          }
+      yAxis: [
+        {
+          type: 'value',
+          minInterval: 1
+        }
       ],
-      series : [
-          {
-              name:'fat_level',
-              type:'bar',
-              barWidth: '60%',
-              data:[2, 1]
-          }
+      series: [
+        {
+          name: legendName,
+          type: 'bar',
+          barWidth: '60%',
+          label: {
+            normal: {
+              show: showLabels,
+              position: 'inside'
+            }
+          },
+          data: yData
+        }
       ]
     }
     chart.setOption(options)
