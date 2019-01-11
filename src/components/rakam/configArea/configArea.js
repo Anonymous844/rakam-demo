@@ -79,7 +79,7 @@ export default class ConfigArea extends React.Component {
   }
   // 图标类型切换
   changeChartType (type) {
-    this.setState({curChart: type})
+    this.setState({curChart: type}, () => this.props.rerender(this.state))
   }
   // checkbox切换
   changeAxis (row, current, e) {

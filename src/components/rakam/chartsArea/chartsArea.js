@@ -1,7 +1,8 @@
 import React from 'react'
 import echarts from 'echarts'
-import { Table } from 'antd'
+import { Table, message } from 'antd'
 
+let chart = null
 
 export default class ChartsArea extends React.Component {
   constructor (props) {
@@ -15,7 +16,8 @@ export default class ChartsArea extends React.Component {
         showLabels: true,
         x: [],
         y: [],
-        legend: ''
+        legend: '',
+        type: 'bar'
       }
     }
   }
@@ -36,7 +38,8 @@ export default class ChartsArea extends React.Component {
       showLabels: true,
       x: [],
       y: [],
-      legend: ''
+      legend: '',
+      type: 'bar'
     }
     for (let x in this.props.data[0]) { // 表头拼装
       columns.push({
@@ -67,9 +70,11 @@ export default class ChartsArea extends React.Component {
       }
     }
     this.props.data.forEach(v => {
+      let arr = []
       xArr.forEach(d => {
-        chartData.x.push(v[d])
+        arr.push(v[d])
       })
+      chartData.x.push(arr.join(','))
       chartData.y.push(v[chartData.legend])
     })
     this.setState({dataSource: dataSource})
@@ -79,25 +84,60 @@ export default class ChartsArea extends React.Component {
   // 重新渲染echarts图之前的拼装参数
   rerender () {
     let config = JSON.parse(JSON.stringify(this.state.chartData))
+    let checkboxObj = this.props.config.checkboxObj
+    let xArr = []
+    let yNum = 0
     config.showLegend = this.props.config.showLegend
     config.showLabels = this.props.config.showLabels
+    config.x = []
+    config.y = []
+    config.type = this.props.config.curChart
+    for (let x in checkboxObj) {
+      if (checkboxObj[x].x) {
+        xArr.push(x)
+      }
+      if (checkboxObj[x].y) {
+        config.legend = x
+        if (++yNum > 1) {
+          this.clearChart()
+          message.error('参数错误')
+          return false
+        }
+      }
+    }
+    if (!xArr.length) {
+      this.clearChart()
+      message.error('参数错误')
+      return false
+    }
+    if (!yNum) {
+      this.clearChart()
+      message.error('参数错误')
+      return false
+    }
+    this.props.data.forEach(v => {
+      let arr = []
+      xArr.forEach(d => {
+        arr.push(v[d])
+      })
+      config.x.push(arr.join(','))
+      config.y.push(v[config.legend])
+    })
     this.setState({chartData: config}, () => this.renderChart())
   }
   // 渲染echarts图
   renderChart () {
-    let chart = echarts.init(document.getElementById('chart'))
+    chart = echarts.init(document.getElementById('chart'))
     const legendName = this.state.chartData.legend
     const xData = this.state.chartData.x
     const yData = this.state.chartData.y
     const showLegend = this.state.chartData.showLegend
     const showLabels = this.state.chartData.showLabels
+    const type = this.state.chartData.type
     let options = {
       color: ['#02afde'],
       tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        }
+        trigger: 'item'
       },
       legend: {
         show: showLegend,
@@ -131,7 +171,7 @@ export default class ChartsArea extends React.Component {
       series: [
         {
           name: legendName,
-          type: 'bar',
+          type: type === 'area' ? 'line' : type,
           barWidth: '60%',
           label: {
             normal: {
@@ -139,11 +179,15 @@ export default class ChartsArea extends React.Component {
               position: 'inside'
             }
           },
+          areaStyle: type === 'area' ? {} : null,
           data: yData
         }
       ]
     }
     chart.setOption(options)
+  }
+  clearChart () {
+    chart.clear()
   }
   render () {
     const columns = this.state.columns
