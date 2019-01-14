@@ -18,59 +18,60 @@ export default class SqlArea extends React.Component {
     })
   }
   runSql () {
-    // let data = {
-    //   data: this.state.sqlStr
-    // }
-    // fetch('/run', {
-    //   method: 'post',
-    //   headers: {
-    //     'Content-Type': 'application/json;charset=UTF-8',
-    //     'Accept': 'application/json',
-    //     'Authorization': ''
-    //   },
-    //   body: JSON.stringify(data)
-    // })
-    // .then(req => req.json())
-    // .then(req => {
-    //   console.log(req)
-    // })
-    this.getChartData()
-  }
-  getChartData () {
     let data = {
-      "attributes": {
-        "list": [
-          {
-            "balanceMain": "THLG",
-            "balanceMainDesc": "宜昌桃花岭饭店",
-            "code": "001",
-            "descript": "支付宝扫码-宜昌桃花岭饭店",
-            "listOrder": 3,
-            "mainType": "group",
-            "type": 2,
-            "cycle": "auto",
-            "main": true,
-            "halt": null,
-            "check": null
-          },
-          {
-            "balanceMain": "THLG",
-            "balanceMainDesc": "宜昌桃花岭饭店",
-            "code": "002",
-            "descript": "微信扫码-宜昌桃花岭饭店",
-            "listOrder": 4,
-            "mainType": "group",
-            "type": 1,
-            "cycle": "auto",
-            "main": true,
-            "halt": null,
-            "check": null
-          }
-        ]
-      },
-      "msg": "账户列表",
-      "success": true
+      sql: this.state.sqlStr
     }
+    fetch('/lambda/test/db', {
+      method: 'post',
+      headers: {
+        // 'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        // 'Authorization': ''
+      },
+      // mode: 'no-cors',
+      body: JSON.stringify(data)
+    })
+    .then(req => req.json())
+    .then(req => {
+      console.log(req)
+      this.getChartData(req)
+    })
+  }
+  getChartData (data) {
+    // let data = {
+    //   "attributes": {
+    //     "list": [
+    //       {
+    //         "balanceMain": "THLG",
+    //         "balanceMainDesc": "宜昌桃花岭饭店",
+    //         "code": "001",
+    //         "descript": "支付宝扫码-宜昌桃花岭饭店",
+    //         "listOrder": 3,
+    //         "mainType": "group",
+    //         "type": 2,
+    //         "cycle": "auto",
+    //         "main": true,
+    //         "halt": null,
+    //         "check": null
+    //       },
+    //       {
+    //         "balanceMain": "THLG",
+    //         "balanceMainDesc": "宜昌桃花岭饭店",
+    //         "code": "002",
+    //         "descript": "微信扫码-宜昌桃花岭饭店",
+    //         "listOrder": 4,
+    //         "mainType": "group",
+    //         "type": 1,
+    //         "cycle": "auto",
+    //         "main": true,
+    //         "halt": null,
+    //         "check": null
+    //       }
+    //     ]
+    //   },
+    //   "msg": "账户列表",
+    //   "success": true
+    // }
     this.props.getData(data.attributes.list)
   }
   render () {
