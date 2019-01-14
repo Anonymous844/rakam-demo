@@ -39,6 +39,12 @@ module.exports = {
     new CleanWebpackPlugin(['app'], { allowExternal: true })
   ],
   devServer: {
+    proxy: {
+      '/lambda': {
+        target: 'http://144.34.208.247:8080'
+        // changeOrigin: true
+      }
+    },
     port: 3333,
     historyApiFallback: true
   }
