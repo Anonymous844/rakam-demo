@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot",
-    "build": "webpack --mode production"
+    "start": "webpack-dev-server --config ./webpack.dev.js --open --hot",
+    "build": "webpack --config ./webpack.build.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,7 +21,8 @@
     "uglifyjs-webpack-plugin": "^2.1.1",
     "webpack": "^4.28.2",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "^4.2.1"
   },
   "dependencies": {
     "antd": "^3.11.6",

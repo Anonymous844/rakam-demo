@@ -4,12 +4,13 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require("path")
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    index: "./src/index.js"
+  },
   output: {
     path: path.resolve(__dirname, 'app'),
     filename: 'main.js'
   },
-  // devtool: '#cheap-module-eval-source-map',
   module: {
     rules: [
       {
@@ -29,23 +30,6 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html"
-    }),
-    new UglifyJsPlugin({
-      parallel: 4,
-      uglifyOptions: {
-        warnings: false
-      }
-    }),
-    new CleanWebpackPlugin(['app'], { allowExternal: true })
-  ],
-  devServer: {
-    proxy: {
-      '/lambda': {
-        target: 'http://144.34.208.247:8080'
-        // changeOrigin: true
-      }
-    },
-    port: 3333,
-    historyApiFallback: true
-  }
+    })
+  ]
 }
