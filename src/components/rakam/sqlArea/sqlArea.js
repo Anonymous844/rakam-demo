@@ -21,14 +21,15 @@ export default class SqlArea extends React.Component {
     let data = {
       sql: this.state.sqlStr
     }
-    fetch('/lambda/test/db', {
+    fetch('http://144.34.208.247:8080/lambda/test/db', {
+    // fetch('/lambda/test/db', {
       method: 'post',
       headers: {
-        // 'Accept': 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
         // 'Authorization': ''
       },
-      // mode: 'no-cors',
+      mode: 'cors',
       body: JSON.stringify(data)
     })
     .then(req => req.json())
