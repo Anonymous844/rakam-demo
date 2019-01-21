@@ -32,11 +32,6 @@ export default class ConfigArea extends React.Component {
                     onChange={(e) => this.changeAxis(record, 'y', e)}
                     disabled={typeof(text) !== 'number'} />
         )
-      }, {
-        title: 'Series',
-        dataIndex: 'Series',
-        key: 'Series',
-        render: () => (<Checkbox disabled />)
       }]
     }
   }

@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import './index.css'
 import { Layout, Menu, Icon } from 'antd'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Redirect, Switch } from 'react-router-dom'
 import rakam from './components/rakam/index'
 
 const { Content, Footer, Sider } = Layout
 const { SubMenu } = Menu
+const home = () => <div>home</div>
 // const rakam = () => <h2>rakam</h2>
 const coldlight = () => <h2>coldlight</h2>
 const anozjy = () => <h2>anozjy</h2>
@@ -16,7 +17,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       collapsed: false,
-      current: window.location.pathname
+      current: '/setting'
     }
   }
   onCollapse (collapsed) {
@@ -24,7 +25,7 @@ class App extends React.Component {
   }
   handleClick (e) {
     this.setState({
-      current: e.key
+        current: e.key
     })
   }
   render() {
@@ -46,8 +47,8 @@ class App extends React.Component {
                 key="sub1"
                 title={<span><Icon type="user" /><span>app</span></span>}
               >
-                <Menu.Item key="/">
-                  <Link to="/">rakam</Link>
+                <Menu.Item key="/setting">
+                  <Link to="/setting">setting</Link>
                 </Menu.Item>
                 <Menu.Item key="/coldlight">
                   <Link to="/coldlight">coldlight</Link>
@@ -60,9 +61,13 @@ class App extends React.Component {
           </Sider>
           <Layout>
             <Content style={{ padding: '16px' }}>
-              <Route exact path="/" component={rakam} />
-              <Route path="/coldlight" component={coldlight} />
-              <Route path="/anozjy" component={anozjy} />
+              <Switch>
+                <Redirect exact from="/" to="/setting" />
+                <Route exact path="/" component={home} />
+                <Route exact path="/setting" component={rakam} />
+                <Route exact path="/coldlight" component={coldlight} />
+                <Route exact path="/anozjy" component={anozjy} />
+              </Switch>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
               rakam ©2019 Created by anozjy

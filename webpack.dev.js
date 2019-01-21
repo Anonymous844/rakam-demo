@@ -10,6 +10,7 @@ module.exports = merge(config, {
     //     target: 'http://144.34.208.247:8080'
     //   }
     // },
-    port: 3333
+    port: 3333,
+    historyApiFallback: true
   }
 })
