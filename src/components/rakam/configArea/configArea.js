@@ -69,6 +69,7 @@ export default class ConfigArea extends React.Component {
         break
       }
     }
+    this.setState({curChart: 'bar'})
     this.setState({dataSource: dataSource})
     this.setState({checkboxObj: checkboxObj})
   }
@@ -111,8 +112,9 @@ export default class ConfigArea extends React.Component {
               <Icon type="area-chart" className="icon" />
             </span>
           </Tooltip>
-          <Tooltip placement="top" title="不可用">
-            <span className={this.state.curChart === 'pie' ? 'pointer icon-style mgl10 active' : 'pointer icon-style mgl10'}>
+          <Tooltip placement="top" title="pie">
+            <span className={this.state.curChart === 'pie' ? 'pointer icon-style mgl10 active' : 'pointer icon-style mgl10'}
+                  onClick={() => this.changeChartType('pie')}>
               <Icon type="pie-chart" className="icon" />
             </span>
           </Tooltip>

@@ -34,7 +34,6 @@ export default class SqlArea extends React.Component {
     })
     .then(req => req.json())
     .then(req => {
-      console.log(req)
       this.getChartData(req)
     })
   }

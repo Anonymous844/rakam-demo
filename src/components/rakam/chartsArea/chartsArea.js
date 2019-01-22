@@ -137,7 +137,10 @@ export default class ChartsArea extends React.Component {
     let options = {
       color: ['#02afde'],
       tooltip: {
-        trigger: 'item'
+        trigger: 'item',
+        formatter: (param) => {
+          return param.seriesName + '<br />' + param.marker + param.name + '：' + param.value
+        }
       },
       legend: {
         show: showLegend,
@@ -155,6 +158,7 @@ export default class ChartsArea extends React.Component {
       },
       xAxis: [
         {
+          show: true,
           type: 'category',
           data: xData,
           axisTick: {
@@ -164,6 +168,7 @@ export default class ChartsArea extends React.Component {
       ],
       yAxis: [
         {
+          show: true,
           type: 'value',
           minInterval: 1
         }
@@ -184,10 +189,52 @@ export default class ChartsArea extends React.Component {
         }
       ]
     }
+    if (type === 'pie') {
+      let data = []
+      for (let x in xData) {
+        data.push({
+          name: xData[x],
+          value: yData[x]
+        })
+      }
+      options = {
+        color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
+        tooltip: {
+          trigger: 'item',
+          formatter: (param) => {
+            return param.seriesName + '<br />' + param.marker + param.name + '：' + param.value + '(' + param.percent + '%)'
+          }
+        },
+        legend: {
+          show: showLegend,
+          data: xData.map((v) => {
+            return {
+              icon: 'circle',
+              name: v
+            }
+          }),
+          bottom: '0'
+        },
+        xAxis: {
+          show: false
+        },
+        yAxis: {
+          show: false
+        },
+        series: [{
+          name: legendName,
+          type: type,
+          data: data,
+          label: {
+            show: false
+          }
+        }]
+      }
+    }
     chart.setOption(options)
   }
   clearChart () {
-    chart.clear()
+    chart.dispose()
   }
   render () {
     const columns = this.state.columns
