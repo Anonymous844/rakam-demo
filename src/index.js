@@ -17,8 +17,11 @@ class App extends React.Component {
     super(props)
     this.state = {
       collapsed: false,
-      current: '/setting'
+      current: '/'
     }
+  }
+  componentDidMount () {
+    this.setState({current: window.location.pathname})
   }
   onCollapse (collapsed) {
     this.setState({ collapsed })
