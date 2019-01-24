@@ -26,6 +26,9 @@ export default class ChartsArea extends React.Component {
       this.dataFormat()
     }
     if (this.props.config !== prevProps.config) {
+      if (!this.props.config.dataSource.length) {
+        return false
+      }
       this.rerender()
     }
   }
@@ -234,7 +237,7 @@ export default class ChartsArea extends React.Component {
     chart.setOption(options)
   }
   clearChart () {
-    chart.dispose()
+    if (chart) chart.dispose()
   }
   render () {
     const columns = this.state.columns
@@ -245,7 +248,7 @@ export default class ChartsArea extends React.Component {
           <div id="chart" style={{height: 200}}></div>
         </div>
         <div style={{minHeight: 250}}>
-          <Table dataSource={dataSource} columns={columns} pagination={false}/>
+          <Table dataSource={dataSource} columns={columns} pagination={false} scroll={{x: true}}/>
         </div>
       </div>
     )

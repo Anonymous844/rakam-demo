@@ -35,6 +35,9 @@ export default class ConfigArea extends React.Component {
       }]
     }
   }
+  componentDidMount () {
+    this.dataFormat()
+  }
   componentDidUpdate (prevProps) {
     if (this.props.data !== prevProps.data) {
       this.dataFormat()
@@ -69,9 +72,11 @@ export default class ConfigArea extends React.Component {
         break
       }
     }
-    this.setState({curChart: 'bar'})
-    this.setState({dataSource: dataSource})
-    this.setState({checkboxObj: checkboxObj})
+    this.setState({
+      curChart: 'bar',
+      dataSource: dataSource,
+      checkboxObj: checkboxObj
+    }, () => this.props.rerender(this.state))
   }
   // 图标类型切换
   changeChartType (type) {

@@ -28,7 +28,7 @@ export default class rakam extends React.Component {
         <Row gutter={10}>
           <Col span={18}>
             <div>
-              <SqlArea getData={data => this.getData(data)}></SqlArea>
+              <SqlArea getData={data => this.getData(data)} data={this.state.data} config={this.state.config}></SqlArea>
               <ChartsArea data={this.state.data} config={this.state.config}></ChartsArea>
             </div>
           </Col>
