@@ -4,12 +4,11 @@ import './index.css'
 import { Layout, Menu, Icon } from 'antd'
 import { BrowserRouter as Router, Route, Link, Redirect, Switch } from 'react-router-dom'
 import rakam from './components/rakam/index'
+import view from './components/view/index'
+import chartDetails from './components/rakam/chartsArea/chartsArea'
 
 const { Content, Footer, Sider } = Layout
 const { SubMenu } = Menu
-const home = () => <div>home</div>
-// const rakam = () => <h2>rakam</h2>
-const coldlight = () => <h2>coldlight</h2>
 const anozjy = () => <h2>anozjy</h2>
 
 class App extends React.Component {
@@ -53,8 +52,8 @@ class App extends React.Component {
                 <Menu.Item key="/setting">
                   <Link to="/setting">setting</Link>
                 </Menu.Item>
-                <Menu.Item key="/coldlight">
-                  <Link to="/coldlight">coldlight</Link>
+                <Menu.Item key="/view">
+                  <Link to="/view">view</Link>
                 </Menu.Item>
                 <Menu.Item key="/anozjy">
                   <Link to="/anozjy">anozjy</Link>
@@ -66,10 +65,10 @@ class App extends React.Component {
             <Content style={{ padding: '16px' }}>
               <Switch>
                 <Redirect exact from="/" to="/setting" />
-                <Route exact path="/" component={home} />
                 <Route exact path="/setting" component={rakam} />
-                <Route exact path="/coldlight" component={coldlight} />
+                <Route exact path="/view" component={view} />
                 <Route exact path="/anozjy" component={anozjy} />
+                <Route exact path="/view/:name" component={chartDetails} />
               </Switch>
             </Content>
             <Footer style={{ textAlign: 'center' }}>

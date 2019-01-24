@@ -21,6 +21,16 @@ export default class ChartsArea extends React.Component {
       }
     }
   }
+  componentDidMount () {
+    window.addEventListener('resize', () => {
+      if (chart) {
+        chart.resize()
+      }
+    })
+    if (this.props.match) {
+      this.getChartDetails(this.props.match.params.name)
+    }
+  }
   componentDidUpdate (prevProps) {
     if (this.props.data !== prevProps.data) {
       this.dataFormat()
@@ -31,6 +41,21 @@ export default class ChartsArea extends React.Component {
       }
       this.rerender()
     }
+  }
+  // 获取图表数据（详情页）
+  getChartDetails (name) {
+    fetch('http://144.34.208.247:8080/lambda/web/chartsInfo?chartsName=' + name, {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors'
+    })
+    .then(req => req.json())
+    .then(req => {
+      console.log(req)
+    })
   }
   // 数据拼装
   dataFormat () {
@@ -248,7 +273,7 @@ export default class ChartsArea extends React.Component {
           <div id="chart" style={{height: 200}}></div>
         </div>
         <div style={{minHeight: 250}}>
-          <Table dataSource={dataSource} columns={columns} pagination={false} scroll={{x: true}}/>
+          <Table dataSource={dataSource} columns={columns} pagination={false} scroll={{x: 1000}}/>
         </div>
       </div>
     )
