@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import './index.css'
 import { Layout, Menu, Icon } from 'antd'
 import { BrowserRouter as Router, Route, Link, Redirect, Switch } from 'react-router-dom'
-import rakam from './components/rakam/index'
+import setting from './components/rakam/index'
 import view from './components/view/index'
 import chartDetails from './components/rakam/chartsArea/chartsArea'
 
@@ -16,7 +16,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       collapsed: false,
-      current: '/'
+      current: '/lambda'
     }
   }
   componentDidMount () {
@@ -49,14 +49,14 @@ class App extends React.Component {
                 key="sub1"
                 title={<span><Icon type="user" /><span>app</span></span>}
               >
-                <Menu.Item key="/setting">
-                  <Link to="/setting">setting</Link>
+                <Menu.Item key="/lambda/setting">
+                  <Link to="/lambda/setting">setting</Link>
                 </Menu.Item>
-                <Menu.Item key="/view">
-                  <Link to="/view">view</Link>
+                <Menu.Item key="/lambda/view">
+                  <Link to="/lambda/view">view</Link>
                 </Menu.Item>
-                <Menu.Item key="/anozjy">
-                  <Link to="/anozjy">anozjy</Link>
+                <Menu.Item key="/lambda/anozjy">
+                  <Link to="/lambda/anozjy">anozjy</Link>
                 </Menu.Item>
               </SubMenu>
             </Menu>
@@ -64,11 +64,11 @@ class App extends React.Component {
           <Layout>
             <Content style={{ padding: '16px' }}>
               <Switch>
-                <Redirect exact from="/" to="/setting" />
-                <Route exact path="/setting" component={rakam} />
-                <Route exact path="/view" component={view} />
-                <Route exact path="/anozjy" component={anozjy} />
-                <Route exact path="/view/:name" component={chartDetails} />
+                <Redirect exact from="/lambda" to="/lambda/setting" />
+                <Route  path="/lambda/setting" component={setting} />
+                <Route exact path="/lambda/view" component={view} />
+                <Route path="/lambda/anozjy" component={anozjy} />
+                <Route path="/lambda/view/:name" component={chartDetails} />
               </Switch>
             </Content>
             <Footer style={{ textAlign: 'center' }}>

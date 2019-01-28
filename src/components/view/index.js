@@ -49,7 +49,7 @@ export default class view extends React.Component{
         dataIndex: 'chartName',
         key: 'chartName',
         render: (text) => (
-          <Link to={"/view/" + text}>{text}</Link>
+          <Link to={"/lambda/view/" + text}>{text}</Link>
         )
       }
     ]

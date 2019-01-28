@@ -54,7 +54,52 @@ export default class ChartsArea extends React.Component {
     })
     .then(req => req.json())
     .then(req => {
-      console.log(req)
+      if (req.success) {
+        let columns = []
+        let dataSource = []
+        let chartData = {
+          showLegend: true,
+          showLabels: true,
+          x: [],
+          y: [],
+          legend: '',
+          type: 'bar'
+        }
+        let params = req.attributes.params
+        for (let x in req.attributes.list[0]) { // 表头拼装
+          columns.push({
+            title: x,
+            dataIndex: x,
+            key: x
+          })
+        }
+        req.attributes.list.forEach(v => {
+          dataSource.push(v)
+        })
+        dataSource = JSON.parse(JSON.stringify(dataSource))
+        dataSource.forEach((v, k) => { // 表格数据拼装
+          v.key = k
+        })
+        chartData.showLegend = params.legendShow === 'true'
+        chartData.showLabels = params.seriesShow === 'true'
+        chartData.legend = params.legendName
+        chartData.type = params.seriesType
+        req.attributes.list.forEach(v => {
+          let arr = []
+          params.xaxisData.split(',').forEach(d => {
+            arr.push(v[d])
+          })
+          chartData.x.push(arr.join(','))
+          chartData.y.push(v[params.yaxisData])
+        })
+        this.setState({
+          dataSource: dataSource,
+          columns: columns,
+          chartData: chartData
+        }, () => this.renderChart())
+      } else {
+        message.error(req.msg)
+      }
     })
   }
   // 数据拼装
@@ -105,9 +150,11 @@ export default class ChartsArea extends React.Component {
       chartData.x.push(arr.join(','))
       chartData.y.push(v[chartData.legend])
     })
-    this.setState({dataSource: dataSource})
-    this.setState({columns: columns})
-    this.setState({chartData: chartData}, () => this.renderChart())
+    this.setState({
+      dataSource: dataSource,
+      columns: columns,
+      chartData: chartData
+    }, () => this.renderChart())
   }
   // 重新渲染echarts图之前的拼装参数
   rerender () {
