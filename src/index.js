@@ -9,7 +9,7 @@ import chartDetails from './components/rakam/chartsArea/chartsArea'
 
 const { Content, Footer, Sider } = Layout
 const { SubMenu } = Menu
-const anozjy = () => <h2>anozjy</h2>
+// const anozjy = () => <h2>anozjy</h2>
 
 class App extends React.Component {
   constructor (props) {
@@ -49,25 +49,25 @@ class App extends React.Component {
                 key="sub1"
                 title={<span><Icon type="user" /><span>app</span></span>}
               >
-                <Menu.Item key="/lambda/setting">
+                {/* <Menu.Item key="/lambda/setting">
                   <Link to="/lambda/setting">setting</Link>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item key="/lambda/view">
                   <Link to="/lambda/view">view</Link>
                 </Menu.Item>
-                <Menu.Item key="/lambda/anozjy">
+                {/* <Menu.Item key="/lambda/anozjy">
                   <Link to="/lambda/anozjy">anozjy</Link>
-                </Menu.Item>
+                </Menu.Item> */}
               </SubMenu>
             </Menu>
           </Sider>
           <Layout>
             <Content style={{ padding: '16px' }}>
               <Switch>
-                <Redirect exact from="/lambda" to="/lambda/setting" />
+                <Redirect exact from="/lambda" to="/lambda/view" />
                 <Route  path="/lambda/setting" component={setting} />
                 <Route exact path="/lambda/view" component={view} />
-                <Route path="/lambda/anozjy" component={anozjy} />
+                {/* <Route path="/lambda/anozjy" component={anozjy} /> */}
                 <Route path="/lambda/view/:name" component={chartDetails} />
               </Switch>
             </Content>

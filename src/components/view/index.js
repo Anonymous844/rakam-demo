@@ -45,7 +45,7 @@ export default class view extends React.Component{
   render () {
     const columns = [
       {
-        title: '图标名',
+        title: '图表名',
         dataIndex: 'chartName',
         key: 'chartName',
         render: (text) => (
