@@ -117,40 +117,6 @@ export default class SqlArea extends React.Component {
     })
   }
   getChartData (data) {
-    // let data = {
-    //   "attributes": {
-    //     "list": [
-    //       {
-    //         "balanceMain": "THLG",
-    //         "balanceMainDesc": "宜昌桃花岭饭店",
-    //         "code": "001",
-    //         "descript": "支付宝扫码-宜昌桃花岭饭店",
-    //         "listOrder": 3,
-    //         "mainType": "group",
-    //         "type": 2,
-    //         "cycle": "auto",
-    //         "main": true,
-    //         "halt": null,
-    //         "check": null
-    //       },
-    //       {
-    //         "balanceMain": "THLG",
-    //         "balanceMainDesc": "宜昌桃花岭饭店",
-    //         "code": "002",
-    //         "descript": "微信扫码-宜昌桃花岭饭店",
-    //         "listOrder": 4,
-    //         "mainType": "group",
-    //         "type": 1,
-    //         "cycle": "auto",
-    //         "main": true,
-    //         "halt": null,
-    //         "check": null
-    //       }
-    //     ]
-    //   },
-    //   "msg": "账户列表",
-    //   "success": true
-    // }
     this.props.getData(data.attributes.list)
   }
   render () {

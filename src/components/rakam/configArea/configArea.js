@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs, Icon, Table, Checkbox, Switch, Tooltip } from 'antd'
+import { Icon, Table, Checkbox, Switch, Tooltip } from 'antd'
 
 export default class ConfigArea extends React.Component {
   constructor (props) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table, message } from 'antd'
-import { BrowserRouter as Router, Route, Link, Redirect, Switch } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default class view extends React.Component{
   constructor (props) {

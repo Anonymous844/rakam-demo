@@ -1,6 +1,4 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin")
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require("path")
 
 module.exports = {
@@ -9,7 +7,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'app'),
-    filename: 'main.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     publicPath: '/'
   },
   module: {
